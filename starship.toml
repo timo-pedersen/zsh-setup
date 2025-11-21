@@ -1,0 +1,47 @@
+# Minimal, fast, readable prompt
+
+format = """
+$directory\
+$git_branch$git_status\
+$python\
+$rust\
+$nodejs\
+$cmd_duration\
+$line_break\
+$character
+"""
+
+[directory]
+style = "bold blue"
+truncate_to_repo = true
+truncation_length = 3
+
+[git_branch]
+style = "bold yellow"
+
+[git_status]
+style = "yellow"
+
+[cmd_duration]
+min_time = 2000
+format = "took [$duration](bold purple) "
+
+[character]
+success_symbol = "[z>](bold green)"
+error_symbol = "[z>](bold red)"
+
+[nodejs]
+format = "node $version "
+disabled = false
+
+[python]
+format = "py $version "
+disabled = false
+
+[rust]
+format = "rs $version "
+disabled = false
+
+[time]
+disabled = true
+

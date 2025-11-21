@@ -1,0 +1,11 @@
+base
+fd
+fzf
+neovim
+nodejs
+npm
+ripgrep
+starship
+sudo
+ttf-nerd-fonts-symbols-mono
+zsh
