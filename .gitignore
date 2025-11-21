@@ -1,0 +1,8 @@
+# local backup files
+*.swp
+*.swo
+
+# Optional system-specific
+.tags
+.vscode/
+

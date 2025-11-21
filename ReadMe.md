@@ -8,12 +8,23 @@
 - -/.config/starship.toml
 
 ## Installed Packages (pacman)
+- pkglist-repo.txt (repository packages)
+
+Update list with:
 ```sh
 pacman -Qqe > dotfiles/pkglist-repo.txt
 ```
 
-- pkglist-repo.txt (repository packages)
-  
+## Bootstrapping on a fresh system
+```sh
+cd ~
+git clone <repo-url> dotfiles
+cd dotfiles
+# Symlink creation
+ln -s ~/dotfiles/.zshrc     ~/.zshrc
+ln -s ~/dotfiles/.zprofile  ~/.zprofile
+ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
+
 ## To restore packages:
 
 ```sh
