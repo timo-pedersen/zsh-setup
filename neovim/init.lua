@@ -1,121 +1,150 @@
-require("first")
+-----------------------------------------------------------
+-- Leader
+-----------------------------------------------------------
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-require("keymappings")
+-----------------------------------------------------------
+-- Basic options
+-----------------------------------------------------------
+local opt = vim.opt
 
--- inits
-o = vim.o
-bo = vim.bo
-wo = vim.wo
+-- UI
+opt.number = true
+opt.relativenumber = true
+opt.cursorline = true
+opt.signcolumn = "yes"
+opt.wrap = true
+opt.colorcolumn = "120"
+opt.termguicolors = true
 
--- basics
-wo.number = true
-wo.relativenumber = true
-wo.cursorline = true
-wo.signcolumn = 'yes'
-wo.wrap = true
-wo.colorcolumn = '120'
+-- No need for "-- INSERT --" when lualine shows mode
+opt.showmode = false
 
-o.syntax = 'on'
-o.showmode = true
-o.termguicolors = true
-o.errorbells = false
-o.signcolumn = 'yes'
-o.scrolloff = 4
-o.updatetime = 50
+-- Behaviour
+opt.errorbells = false
+opt.scrolloff = 4
+opt.updatetime = 50
 
--- tabs
-o.shiftwidth = 4
-o.tabstop = 4
-o.softtabstop = 4
-o.expandtab = true
-bo.autoindent = true
-bo.smartindent = true
+-- Tabs & indentation
+opt.shiftwidth = 4
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.expandtab = true
+opt.autoindent = true
+opt.smartindent = true
 
--- search
-o.ignorecase = true
-o.incsearch = true
-o.hlsearch = true
+-- Search
+opt.ignorecase = true
+opt.smartcase = true      -- modern addition: case-sensitive if pattern has uppercase
+opt.incsearch = true
+opt.hlsearch = true
 
--- shell, bu &c
-o.shell = "C:/msys64/usr/bin/bash.exe"
-o.writebackup = false
-o.backup = false
-o.undodir = vim.fn.stdpath("data") .. "/undo"
-o.undofile = true
-bo.swapfile = false -- true = Swapfile will be in memory
+-- Undo / swap / backup
+opt.writebackup = false
+opt.backup = false
+opt.swapfile = false
 
--- buffers, windows etc
-o.hidden = false -- something whether buffers are in mem or on disk. Look it up. Affects performance.
+local undodir = vim.fn.stdpath("data") .. "/undo"
+vim.fn.mkdir(undodir, "p")
+opt.undodir = undodir
+opt.undofile = true
 
--- Syntaxt, Autocomplete
-o.completeopt = 'menuone,noinsert,noselect' -- Look it up
-
--- Lazy
+-----------------------------------------------------------
+-- lazy.nvim bootstrap (WSL git only, no curl mess)
+-----------------------------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-{
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-        require('lualine').setup {
-            options = {
-                icons_enabled = true,
-                theme = 'ayu',
-                component_separators = { left = '', right = ''},
-                section_separators = { left = '', right = ''},
-                disabled_filetypes = {
-                    statusline = {},
-                    winbar = {},
-                },
-                ignore_focus = {},
-                always_divide_middle = true,
-                globalstatus = false,
-                refresh = {
-                    statusline = 1000,
-                    tabline = 1000,
-                    winbar = 1000,
-                }
-            },
-            sections = {
-                lualine_a = {'mode'},
-                lualine_b = {'branch', 'diff', 'diagnostics'},
-                lualine_c = {'filename'},
-                lualine_x = {'encoding', 'fileformat', 'filetype'},
-                lualine_y = {'progress'},
-                lualine_z = {'location'}
-            },
-            inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = {'filename'},
-                lualine_x = {'location'},
-                lualine_y = {},
-                lualine_z = {}
-            },
-            tabline = {},
-            winbar = {},
-            inactive_winbar = {},
-            extensions = {}
-        }
-    end
-},
--- init.lua:
-{
-    'nvim-telescope/telescope.nvim', tag = '0.1.6',
--- or                              , branch = '0.1.x',
-      dependencies = { 'nvim-lua/plenary.nvim' }
-}
+-----------------------------------------------------------
+-- Plugins
+-----------------------------------------------------------
+require("lazy").setup({
+  ---------------------------------------------------------
+  -- Statusline: lualine
+  ---------------------------------------------------------
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      options = {
+        icons_enabled = true,
+        theme = "ayu",  -- keep what you had
+        component_separators = { left = "", right = "" },
+        section_separators   = { left = "", right = "" },
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename" },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+    },
+  },
 
-)
+  ---------------------------------------------------------
+  -- Telescope + fzf-native
+  ---------------------------------------------------------
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
+    config = function()
+      local telescope = require("telescope")
+      local builtin = require("telescope.builtin")
+
+      telescope.setup({
+        defaults = {
+          layout_strategy = "flex",
+          layout_config = {
+            prompt_position = "top",
+          },
+          sorting_strategy = "ascending",
+        },
+      })
+
+      -- Load fzf extension if compiled
+      pcall(telescope.load_extension, "fzf")
+
+      -- Minimal, sane keymaps (no noise, all under <leader>f)
+      local map = vim.keymap.set
+      local opts = { noremap = true, silent = true }
+
+      map("n", "<leader>ff", builtin.find_files, vim.tbl_extend("force", opts, { desc = "Find files" }))
+      map("n", "<leader>fg", builtin.live_grep,  vim.tbl_extend("force", opts, { desc = "Live grep" }))
+      map("n", "<leader>fb", builtin.buffers,    vim.tbl_extend("force", opts, { desc = "List buffers" }))
+      map("n", "<leader>fh", builtin.help_tags,  vim.tbl_extend("force", opts, { desc = "Help tags" }))
+    end,
+  },
+})
+
+
+
+-----------------------------------------------------------
+-- Quickfix navigation (Swedish keyboard friendly)
+-----------------------------------------------------------
+local map = vim.keymap.set
+local km_opts = { noremap = true, silent = true }
+
+map("n", "<leader>8", "<cmd>cprevious<CR>", vim.tbl_extend("force", km_opts, { desc = "Quickfix previous" }))
+map("n", "<leader>9", "<cmd>cnext<CR>",     vim.tbl_extend("force", km_opts, { desc = "Quickfix next" }))
+
+-- Optional but useful:
+-- map("n", "<leader>qo", "<cmd>copen<CR>",   vim.tbl_extend("force", km_opts, { desc = "Quickfix open" }))
+-- map("n", "<leader>qc", "<cmd>cclose<CR>",  vim.tbl_extend("force", km_opts, { desc = "Quickfix close" }))
+
+

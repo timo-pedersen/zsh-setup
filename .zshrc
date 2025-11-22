@@ -80,7 +80,7 @@ alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
 alias la='ls -la --color=auto'
 alias l='ls --color=auto'
-alias git='/mnt/c/program\ files/git/bin/git.exe'
+alias wgit='/mnt/c/program\ files/git/bin/git.exe'
 
 # Fuzzy cd into a directory
 fcd() {
