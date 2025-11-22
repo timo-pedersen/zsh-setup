@@ -9,6 +9,7 @@ npm
 ripgrep
 starship
 sudo
+tmux
 ttf-nerd-fonts-symbols-mono
 unzip
 wget
