@@ -1,6 +1,8 @@
 base
+base-devel
 fd
 fzf
+git
 neovim
 nodejs
 npm
@@ -8,4 +10,7 @@ ripgrep
 starship
 sudo
 ttf-nerd-fonts-symbols-mono
+unzip
+wget
+zip
 zsh
