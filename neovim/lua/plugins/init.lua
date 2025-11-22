@@ -82,5 +82,14 @@ require("lazy").setup({
         vim.tbl_extend("force", opts, { desc = "Telescope: Help tags" }))
     end,
   },
+  ---------------------------------------------------------
+  -- Git signs
+  ---------------------------------------------------------
+  {
+    "lewis6991/gitsigns.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
+
 })
 
