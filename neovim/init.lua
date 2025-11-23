@@ -9,9 +9,5 @@ vim.g.maplocalleader = " "
 -----------------------------------------------------------
 require("core.options")
 require("core.keymaps")
-
------------------------------------------------------------
--- Plugins (lazy.nvim + specs)
------------------------------------------------------------
-require("plugins")
+require("core.lazy") -- This handles all plugins
 
