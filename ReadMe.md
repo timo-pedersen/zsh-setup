@@ -21,9 +21,9 @@ cd ~
 git clone <repo-url> dotfiles
 cd dotfiles
 # Symlink creation
-ln -s ~/dotfiles/.zshrc     ~/.zshrc
-ln -s ~/dotfiles/.zprofile  ~/.zprofile
-ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
+ln -s ~/dotfiles/zsh/.zshrc     ~/.zshrc
+ln -s ~/dotfiles/zsh/.zprofile  ~/.zprofile
+ln -s ~/dotfiles/conf/starship.toml ~/.config/starship.toml
 
 ### To restore packages:
 
@@ -38,15 +38,6 @@ NeoVim conf lives in neovim directory. Symlink like this:
 
 ```sh
 ln -s ~/dotfiles/neovim ~/.config/nvim
-```
-
-Neovim data lives in neovim-data direcory and holds runtime files, plugin installs and 
-should mostly be ignored in version control.
-
-Symlink like this:
-
-```sh
-ln -s ~/dotfiles/neovim-data ~/.local/share/nvim
 ```
 
 

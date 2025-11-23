@@ -1,6 +1,7 @@
 return {
     "lewis6991/gitsigns.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
         -- This function runs when gitsigns attaches to a buffer
         on_attach = function(bufnr)

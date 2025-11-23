@@ -1,26 +1,44 @@
 return {
     "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",  -- ← ADD THIS
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    
-    -- "opts" will be passed to require("lualine").setup() automatically
+
     opts = {
         options = {
             icons_enabled = true,
-            theme = "ayu",
-            -- Your custom separators for that "powerline" look
+            theme = "tokyonight",
             component_separators = { left = "", right = "" },
             section_separators   = { left = "", right = "" },
+            globalstatus = true,   -- modern UI (Neovim 0.9+)
+            disabled_filetypes = { statusline = { "alpha", "dashboard" } },
         },
+
         sections = {
-            -- Left side
             lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { "filename" },
-            
-            -- Right side
-            lualine_x = { "encoding", "fileformat", "filetype" },
+
+            lualine_b = {
+                "branch",
+                "diff",
+                {
+                    "diagnostics",
+                    symbols = {
+                        error = " ",
+                        warn  = " ",
+                        info  = " ",
+                        hint  = "󰌵 ",
+                    },
+                },
+            },
+
+            -- Show file path relative to project root
+            lualine_c = {
+                { "filename", path = 1, symbols = { modified = " ", readonly = " " } },
+            },
+
+            lualine_x = { "filetype" },
             lualine_y = { "progress" },
             lualine_z = { "location" },
         },
     },
 }
+

@@ -11,37 +11,9 @@
 # Ignore rules for Neovim data folder
 # ============================
 
-# All dynamic/runtime files under neovim-data folder
-neovim-data/**/backup/
-neovim-data/**/undo/
-neovim-data/**/swap/
-neovim-data/**/session/
-neovim-data/**/shada/
-neovim-data/**/*.swp
-
-# Logs & cache & compiled artifacts
-neovim-data/**/*.log
-neovim-data/**/*.tmp
-neovim-data/**/*.cache
-neovim-data/**/build/
-neovim-data/**/dist/
-neovim-data/**/logs/
-
-# Plugin installs / manager folders
-neovim-data/**/site/pack/
-neovim-data/**/lazy/
-neovim-data/**/plugins/
-neovim-data/**/plugged/
-neovim-data/**/node_modules/
-
-# Optional: large runtime directories
-neovim-data/**/plugged/
-neovim-data/**/node_modules/
-
-# ===================================
-# You may also want to ignore windows-specific data if using the same repo
-# ===================================
-# (Example, if Windows version produces data under “nvim-data”)
-#/nvim-data/**  
+neovim-data/
+neovim-data/**
+*.swp
+*.swo
 
 
