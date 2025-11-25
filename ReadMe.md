@@ -29,7 +29,8 @@ ln -s ~/dotfiles/conf/starship.toml ~/.config/starship.toml
 
 ```sh
 sudo pacman -Syu
-sudo pacman -S --needed - < pkglist-repo.txt
+dos2unix pkglist-repo.txt
+sudo pacman -S --needed $(cat pkglist-repo.txt)
 ```
 
 ## Neovim

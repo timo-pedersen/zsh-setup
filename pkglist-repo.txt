@@ -1,12 +1,15 @@
 base
 base-devel
+dos2unix
 dotnet-sdk
 fd
 fzf
 git
+less
 neovim
 nodejs
 npm
+openssh
 ripgrep
 starship
 sudo
@@ -14,5 +17,6 @@ tmux
 ttf-nerd-fonts-symbols-mono
 unzip
 wget
+xdg-utils
 zip
 zsh
